@@ -1,0 +1,94 @@
+html, body, h1, h2, p, div, footer {
+	padding: 0;
+	border: 0;
+	margin: 0;
+	font: inherit;
+	font-size: 100%;
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+h1 {
+	font-size: 30px;
+	font-weight: bold;
+	text-align: center;
+}
+h4 {
+	font-size: 15px;
+	font-weight: normal;
+	text-align: center;
+}
+
+.footer {
+	font-size: 15px;
+	font-weight: normal;
+	text-align: center;
+}
+
+.rectangle {
+	border-radius: 25px;
+	width: 1000px;
+	height: 400px;
+	margin-top: -1px;
+	margin-left: auto;
+    margin-right: auto;
+    /*border: 2px solid black;*/
+    padding: 10px 10px 20px 10px;
+}
+
+#upper {
+	height: 50px;
+	width:  1000px
+}
+
+#lower {
+	
+}
+
+#reveal {
+	float: right;
+}
+
+#submit {
+	float: bottom;
+}
+
+.columns {
+	height: 400px; 
+	width: 65px;
+	display: inline-block;
+	/*border: 1px dashed black;*/
+}
+
+.clues {
+	height: 40px; 
+	width: 65px;
+	display: inline-block;
+	/*border: 1px dashed black;*/
+}
+
+.circle {
+	width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px; 
+    display: block;
+    border: 2px solid black;
+    margin: 5px 5px 5px 5px;
+}
+
+.peg {
+	width: 10px;
+    height: 10px;
+    border-radius: 13px;
+    -webkit-border-radius: 13px;
+    -moz-border-radius: 13px; 
+    display: inline-block;
+    border: 2px solid black;
+    margin: 3px 3px 3px 10px;
+}
+
+
+
+
+
+
