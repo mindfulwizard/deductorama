@@ -37,6 +37,7 @@ h4 {
 #upper {
 	height: 50px;
 	width:  1000px
+	border: 2px solid black;
 }
 
 #lower {
@@ -87,8 +88,37 @@ h4 {
     margin: 3px 3px 3px 10px;
 }
 
+.button-div {
+}
 
+/*#circle1 {
+	background-color: red;
+}*/
 
+#circle1 {
+	background-color: blue;
+}
 
+.red {
+	background-color: red;
+}
 
+.orange {
+	background-color: orange;
+}
 
+.yellow {
+	background-color: yellow;
+}
+
+.green {
+	background-color: green;
+}
+
+.blue {
+	background-color: blue;
+}
+
+.purple {
+	background-color: purple;
+}
