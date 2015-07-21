@@ -7,29 +7,28 @@
 		<h1>Deductorama: a Mastermind clone</h1>
 		<h4>Your goal is to guess the correct pattern. Keep clicking on a circle to cycle through all color choices. A black dot indicates some proper color in the correct position, while a grey dot represents some correct color in the wrong position.</h4>
 	</head>	
+
 	<body>
-		<div class='board' ng-init='rows = [0,1,2,3]' ng-init='columns=[]'>
-			<div class="column" id='column{{$index+1}}' ng-repeat'column in columns'>
-				<div class="rectangle" id="upper">
-					<div class="clues">
-						<div class="peg" id='peg{{$index+1}}' ng-repeat='row in rows'>
-						</div>
+		<div class='board'>
+			<div class='columns'>
+				<div class="column" id="column{{$index+1}}" ng-repeat="column in columns">
+					<div class="pegs">
+						<div class="peg" id='peg{{$index+1}}' ng-repeat='row in rows track by $index'></div>
+					</div>
+					<div class='circles'>
+						<div class='circle' id="circle{{$index+1}}" ng-click="colorCycler($index)" ng-repeat='row in rows track by $index' style='background-color: {{colorsArr[$index]}}'></div>
 					</div>	
 				</div>
-				<div class="rectangle" id="lower">
-					<div class='circle' id="circle{{$index+1}}" ng-click="colorCycler()" ng-repeat='row in rows'>
-					</div>
-				</div>
 			</div>	
-		</div>	
+		</div>
+		
+			
+
+
 		<div class="button-div">
 			<button id="reveal">Reveal Solution</button>
 			<button id="submit" ng-click="makeGuess(colorsArr); showNextColumn()">Submit Guess</button>
-		</div>		
+		</div>	
 	</body>
-	<footer class="footer">
-    	<div class="container">
-      		<!-- <p class="text-muted">Built by Isaac Ratner at <a href="http://www.fullstackacademy.com/">Fullstack Academy</a></p> -->
-  	 	</div>
-  	</footer>
+	<!-- http://www.etymonline.com/index.php?search=-rama&searchmode=none -->
 </html>

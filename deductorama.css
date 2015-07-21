@@ -17,6 +17,23 @@ h4 {
 	text-align: center;
 }
 
+.board {
+	padding: 60px 60px 10px 60px;
+	border: 60px 60px 10px 60px;
+	margin: 60px 60px 10px 60px;
+}
+
+.column {
+	width: 70px;
+	height: 300px;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	display: inline-block; 
+
+}
+
+
 .footer {
 	font-size: 15px;
 	font-weight: normal;
@@ -52,12 +69,12 @@ h4 {
 	float: bottom;
 }
 
-.columns {
+/*.columns {
 	height: 400px; 
 	width: 65px;
 	display: inline-block;
-	/*border: 1px dashed black;*/
-}
+	border: 1px dashed black;
+}*/
 
 .clues {
 	height: 40px; 
@@ -89,15 +106,12 @@ h4 {
 }
 
 .button-div {
+	display: inline-block;
 }
 
 /*#circle1 {
-	background-color: red;
-}*/
-
-#circle1 {
 	background-color: blue;
-}
+}*/
 
 .red {
 	background-color: red;
