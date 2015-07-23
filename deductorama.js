@@ -1,71 +1,49 @@
 var app = angular.module('deductorama', []);
 var counter;
-var columnCounter;
 
-app.controller('MainCtrl', function ($scope, CircleFactory, ColumnFactory) {
+app.controller('MainCtrl', function ($scope) {
 	$scope.guesses = [];
-	$scope.colorsArr = [];
-	//$scope.rows = [1,1,1,1];
+	$scope.colorsObj = {0: null, 1:null, 2:null, 3:null};
 	$scope.rows = [1,2,3,4];
-	$scope.columns = [1];
 
+	$scope.setPattern
 
 	$scope.colorCycler = function($index) {
 			var availableColors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+
+			//start colorCycler from red if clicking on new circle
+			if(!$scope.colorsObj[$index]) {
+				counter = 0;
+			}
+
+			//cycle through colors when hitting end of availableColors array
 			counter = counter || 0;
 			if(counter === availableColors.length) {
 				counter = 0;
 			}
-			$scope.colorsArr[$index] = availableColors[counter];
-			counter++;
-			console.log("colorsArr is", $scope.colorsArr);
-		};
-	
 
-	$scope.makeGuess = function(colorsArr) {
-		$scope.guesses.push(colorsArr);
+			//push colors into colorsObj to be rendered in working column
+			$scope.colorsObj[$index] = availableColors[counter];
+			counter++;
+		};
+
+	$scope.makeGuess = function(colorsObj) {
+		//make sure all circles are colored
+		for(var key in colorsObj) {
+			if(!colorsObj[key]) {
+		 		$scope.notAllFilledOut = true;
+				return;
+			}	
+		}
+		$scope.notAllFilledOut = false;
+
+		//push colorsObj into guesses to be rendered by previous columns
+		$scope.guesses.push(colorsObj);
+		//reset colorsObj to be used in working column
+		$scope.colorsObj = {0: null, 1:null, 2:null, 3:null};
 	};
 
-
-	$scope.showNextColumn = function() {
-		columnCounter = columnCounter || 2;
-		console.log(columnCounter);
-		$scope.columns.push(columnCounter);
-		columnCounter++;
-	}
 });
-
-
-
-app.factory('CircleFactory', function() {
-	return {
-		colorChooser: function() {	
-			$scope.colorsArr.push();
-			console.log('also working')	
-		}
-	}
-});
-
-
-app.factory('ColumnFactory', function() {
-	return {
-		showNextColumn: function() {
-			console.log('angular working');
-			$scope.columns.push(1)
-		}
-	}
-});
-
-
-// <div ng-repeat="guess in guesses">...</div>
-
-// <div>
-//   [[ insert interface for making a single guess ]]
-//   [[ this div will basically call push on $scope guesses]]
-// </div>
-
-
-//on click, push something into columns array
 
 
 
