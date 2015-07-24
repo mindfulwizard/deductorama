@@ -5,8 +5,8 @@
 	<head>
 		<div class="header">
 			<link rel="stylesheet" href="deductorama.css">
-			<h1>Deductorama: a Mastermind clone</h1>
-			<h4>Your goal is to guess the correct pattern. Keep clicking on a circle to cycle through all color choices. A black dot indicates some proper color in the correct position, while a grey dot represents some correct color in the wrong position.</h4>
+			<h1>Deductorama</h1>
+			<h4>Your goal is to guess the correct pattern. Keep clicking on a circle to cycle through all color choices. A black dot indicates some correct color in the correct position, while a grey dot represents some correct color in the wrong position.</h4>
 		</div>	
 	</head>	
 
@@ -15,7 +15,7 @@
 			<div class='columns'>
 				<div class="column" id="column{{$index+1}}" ng-repeat="guess in guesses track by $index">
 					<div class="pegs">
-						<div class="peg" id='peg{{$index+1}}' ng-repeat='row in rows track by $index'></div>
+						<div class="peg" id='peg{{$index+1}}' ng-repeat='row in rows track by $index' style='background-color: {{pegsArr[$parent.$index][$index]}}'></div>
 					</div>
 					<div class='circles'>
 						<div class='circle' id="circle{{$index+1}}" ng-repeat='row in rows track by $index' style='background-color: {{guesses[$parent.$index][$index]}}'></div>
@@ -26,15 +26,16 @@
 						<div class="peg" id='peg{{$index+1}}' ng-repeat='row in rows track by $index'></div>
 					</div>
 					<div class='circles'>
-						<div class='circle' id="circle{{$index+1}}" ng-click="colorCycler($index)" ng-repeat='row in rows track by $index' style='background-color: {{colorsObj[$index]}}'></div>
+						<div class='circle' id="circle{{$index+1}}" ng-click="colorCycler($index, colorsObj)" ng-repeat='row in rows track by $index' style='background-color: {{colorsObj[$index]}}'></div>
 					</div>	
 				</div>
 			</div>	
 		</div>
 		<div class="button-div">
 			<p ng-show='notAllFilledOut'>Please fill out all the circles!</p>
+			<p ng-show='winner'>You Win!</p>
 			<button id="reveal">Reveal Solution</button>
-			<button id="submit" ng-click="makeGuess(colorsObj)">Submit Guess</button>
+			<button ng-show="gameOn" id="submit" ng-click="makeGuess(colorsObj)">Submit Guess</button>
 		</div>	
 	</body>
 	<!-- http://www.etymonline.com/index.php?search=-rama&searchmode=none -->
