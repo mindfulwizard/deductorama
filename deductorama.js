@@ -1,7 +1,6 @@
 var app = angular.module('deductorama', []);
 var counter;
 
-
 app.controller('MainCtrl', function ($scope) {
 	$scope.submissions = 12;
 	$scope.rows = [0,1,2,3];
@@ -10,8 +9,8 @@ app.controller('MainCtrl', function ($scope) {
 	$scope.answersObj = {0: null, 1:null, 2:null, 3:null};
 	$scope.pegsArr = [];
 	$scope.currentPegs = [];
-	$scope.gameOver = false;
 	$scope.loser = false;
+	$scope.winner = false;
 
 	$scope.colorCycler = function($index, obj) {
 		var availableColors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
@@ -33,6 +32,15 @@ app.controller('MainCtrl', function ($scope) {
 	};
 
 	$scope.makeGuess = function(colorsObj) {
+		if($scope.submissions === 0) {
+			$scope.loser = true;
+			//return;
+		};
+
+		if($scope.winner === true || $scope.loser === true) {
+			return;
+		}
+
 		//make sure all circles are colored
 		for(var key in colorsObj) {
 			if(!colorsObj[key]) {
@@ -41,15 +49,8 @@ app.controller('MainCtrl', function ($scope) {
 			}	
 		}
 		$scope.notAllFilledOut = false;
-
-		$scope.checkAnswer(colorsObj);
-
-		$scope.submissions--;
-
-		if($scope.submissions === 0) {
-			$scope.gameOver = true;
-			$scope.revealAnswer();
-		};
+		
+		$scope.checkAnswer(colorsObj);		
 	};
 
 	$scope.revealAnswer = function() {
@@ -59,6 +60,12 @@ app.controller('MainCtrl', function ($scope) {
 	}
 
 	$scope.checkAnswer = function(colorsObj) {
+		if($scope.submissions === 0) {
+			$scope.loser = true;
+			return;
+		};
+		$scope.submissions--;
+
 		var rightSpot = 0;
 		var rightColor = 0;
 
