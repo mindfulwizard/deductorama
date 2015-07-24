@@ -1,32 +1,35 @@
 var app = angular.module('deductorama', []);
 var counter;
 
+
 app.controller('MainCtrl', function ($scope) {
+	$scope.submissions = 3;
 	$scope.rows = [0,1,2,3];
 	$scope.guesses = [];
 	$scope.colorsObj = {0: null, 1:null, 2:null, 3:null};
 	$scope.answersObj = {0: null, 1:null, 2:null, 3:null};
 	$scope.pegsArr = [];
 	$scope.currentPegs = [];
-	$scope.gameOn = true;
+	$scope.gameOver = false;
+	$scope.loser = false;
 
 	$scope.colorCycler = function($index, obj) {
-			var availableColors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+		var availableColors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
 
-			//start colorCycler from red if clicking on new circle
-			if(!obj[$index]) {
-				counter = 0;
-			}
+		//start colorCycler from red if clicking on new circle
+		if(!obj[$index]) {
+			counter = 0;
+		}
 
-			//cycle through colors when hitting end of availableColors array
-			counter = counter || 0;
-			if(counter === availableColors.length) {
-				counter = 0;
-			}
+		//cycle through colors when hitting end of availableColors array
+		counter = counter || 0;
+		if(counter === availableColors.length) {
+			counter = 0;
+		}
 
-			//push colors into colorsObj to be rendered in working column
-			obj[$index] = availableColors[counter];
-			counter++;
+		//push colors into colorsObj to be rendered in working column
+		obj[$index] = availableColors[counter];
+		counter++;
 	};
 
 	$scope.makeGuess = function(colorsObj) {
@@ -40,7 +43,20 @@ app.controller('MainCtrl', function ($scope) {
 		$scope.notAllFilledOut = false;
 
 		$scope.checkAnswer(colorsObj);
+
+		$scope.submissions--;
+
+		if($scope.submissions === 0) {
+			$scope.gameOver = true;
+			$scope.revealAnswer();
+		};
 	};
+
+	$scope.revealAnswer = function() {
+		for(var key in $scope.colorsObj) {
+			$scope.colorsObj[key] = $scope.answersObj[key];
+		}
+	}
 
 	$scope.checkAnswer = function(colorsObj) {
 		var rightSpot = 0;
@@ -50,7 +66,6 @@ app.controller('MainCtrl', function ($scope) {
 		//deep equals of colorsObj with answersObj
 		if(JSON.stringify(colorsObj) === JSON.stringify($scope.answersObj)) {
 		 	$scope.winner = true;
-		 	$scope.gameOn = false;
 		 	return;
 		};
 
@@ -82,10 +97,6 @@ app.controller('MainCtrl', function ($scope) {
     		}		
 		});
 
-
-		console.log("rightSpot", rightSpot);
-		console.log("rightColor", rightColor);
-
 		$scope.sendHints(rightColor, rightSpot);
 
 		//push colorsObj into guesses to be rendered by previous columns
@@ -111,7 +122,6 @@ app.controller('MainCtrl', function ($scope) {
 		for(var c = 0; c < totallyWrong; c++) {
 			$scope.currentPegs.push('white');
 		};
-		console.log($scope.currentPegs);
 	};
 
 	$scope.setPattern = function(){
@@ -122,7 +132,7 @@ app.controller('MainCtrl', function ($scope) {
 				$scope.colorCycler(e, $scope.answersObj);
 			}
 		});
-		console.log("answer", $scope.answersObj);
+		//console.log("answer", $scope.answersObj);
 	}();
 
 });

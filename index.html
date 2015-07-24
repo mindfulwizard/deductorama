@@ -32,10 +32,11 @@
 			</div>	
 		</div>
 		<div class="button-div">
+			<p>You have {{submissions}} guesses left</p>
 			<p ng-show='notAllFilledOut'>Please fill out all the circles!</p>
-			<p ng-show='winner'>You Win!</p>
-			<button id="reveal">Reveal Solution</button>
-			<button ng-show="gameOn" id="submit" ng-click="makeGuess(colorsObj)">Submit Guess</button>
+			<p ng-show='winner'>You Win!</p><p ng-show="loser">You Lose.</p>
+			<button id="reveal" ng-click="revealAnswer()">Reveal Solution</button>
+			<button id="submit" ng-click="makeGuess(colorsObj)">Submit Guess</button>
 		</div>	
 	</body>
 	<!-- http://www.etymonline.com/index.php?search=-rama&searchmode=none -->
