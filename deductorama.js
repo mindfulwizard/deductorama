@@ -3,7 +3,7 @@ var counter;
 
 
 app.controller('MainCtrl', function ($scope) {
-	$scope.submissions = 3;
+	$scope.submissions = 12;
 	$scope.rows = [0,1,2,3];
 	$scope.guesses = [];
 	$scope.colorsObj = {0: null, 1:null, 2:null, 3:null};
