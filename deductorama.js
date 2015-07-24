@@ -58,6 +58,7 @@ app.controller('MainCtrl', function ($scope) {
 			$scope.colorsObj[key] = $scope.answersObj[key];
 		}
 		$scope.loser = true;
+		//why doesn't this work
 	}
 
 	$scope.checkAnswer = function(colorsObj) {
