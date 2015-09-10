@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.js"></script>
 <script src='deductorama.js'></script>
 <html ng-app="deductorama" ng-controller="MainCtrl">
 	<head>
@@ -26,18 +27,18 @@
 						<div class="peg" id='peg{{$index+1}}' ng-repeat='row in rows track by $index'></div>
 					</div>
 					<div class='circles'>
-						<div class='circle' id="circle{{$index+1}}" ng-click="colorCycler($index, colorsObj)" ng-repeat='row in rows track by $index' style='background-color: {{colorsObj[$index]}}'></div>
+						<div class='circle' id="circle{{$index+1}}" ng-click="colorCycler($index, colorsArray)" ng-repeat='row in rows track by $index' style='background-color: {{colorsArray[$index]}}'></div>
 					</div>	
 				</div>
 			</div>	
 		</div>
 		<div class="button-div">
-			<p>You have {{submissions}} guesses left</p>
-			<p ng-show='notAllFilledOut'>Please fill out all the circles!</p>
-			<p ng-show='winner'>You Win!</p><p ng-show="loser">You Lose.</p>
+			<span>You have {{submissions}} guesses left</span><br>
+			<span ng-show='notAllFilledOut'>Please fill out all the circles!</span><br>
+			<span ng-show='winner'>You Win!</span><span ng-show="loser">You Lose.</span>
 			<button id="reveal" ng-click="revealAnswer()">Reveal Solution</button>
-			<button id="submit" ng-click="makeGuess(colorsObj)">Submit Guess</button>
+			<button id="submit" ng-click="verify(colorsArray)">Submit Guess</button>
+			<button ng-show="winner || loser" id="replay" ng-click="playAgain()">Play another game!</button>
 		</div>	
 	</body>
-	<!-- http://www.etymonline.com/index.php?search=-rama&searchmode=none -->
 </html>

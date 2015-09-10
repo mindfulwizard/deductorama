@@ -117,17 +117,22 @@ h4 {
 }
 
 .button-div {
+	display: block;
 	width: 200px;
     height: 200px;
-	display: block;
+	display: block
 	padding-left: 60 px;
 	padding-right: 60 px;
 	border-left: 60 px;
 	border-right: 60 px;
 	margin-left: 60 px;
 	margin-right: 60 px;
+	margin: 0 auto;
+     width: 100px; 
+	}
+button {
+	display: inline-block;
 }
-
 
 .red {
 	background-color: red;
