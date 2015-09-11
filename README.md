@@ -6,5 +6,5 @@ I built this Mastermind clone during review week at Fullstack Academy. You can p
 
 Inspiration: https://en.wikipedia.org/wiki/Mastermind_(board_game)
 
-
+http://i.imgur.com/3aEA3jL.png
 
