@@ -91,9 +91,6 @@ app.controller('MainCtrl', function ($scope) {
 			}
 		})
 
-		console.log('rightSpot:', rightSpot)
-		console.log('rightColor:', rightColor)
-
 		sendHints(rightColor, rightSpot);
 
 		//push colorsArray into guesses to be rendered by previous columns
@@ -117,6 +114,7 @@ app.controller('MainCtrl', function ($scope) {
 	};
 
 	$scope.revealAnswer = function() {
+		$scope.notAllFilledOut = false;
 		$scope.colorsArray = _.clone($scope.answersArray);
 		$scope.canClick = false;
 		$scope.loser = true;
@@ -134,7 +132,7 @@ app.controller('MainCtrl', function ($scope) {
 				$scope.colorCycler(e, $scope.answersArray);
 			}
 		});
-		console.log('answer:', $scope.answersArray);
+		//console.log('answer:', $scope.answersArray);
 	}();
 
 });

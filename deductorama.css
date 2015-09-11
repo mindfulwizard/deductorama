@@ -64,17 +64,17 @@ h4 {
 	border: 2px solid black;
 }
 
-#lower {
-	
-}
-
-#reveal {
-	float: right;
+/*#reveal {
+	position: fixed;
 }
 
 #submit {
-	float: bottom;
+	position: fixed;
 }
+
+#replay {
+	position: fixed;
+}*/
 
 /*.columns {
 	height: 400px; 
@@ -82,6 +82,12 @@ h4 {
 	display: inline-block;
 	border: 1px dashed black;
 }*/
+
+.words {
+	margin: auto;
+	height: 60px; 
+	width: 200px;
+}
 
 .clues {
 	height: 40px; 
@@ -117,6 +123,7 @@ h4 {
 }
 
 .button-div {
+	text-align:center;
 	display: block;
 	width: 200px;
     height: 200px;
@@ -128,11 +135,14 @@ h4 {
 	margin-left: 60 px;
 	margin-right: 60 px;
 	margin: 0 auto;
-     width: 100px; 
+    width: 100px; 
 	}
-	
-button {
-	display: inline;
+
+.but {
+	text-align: center;
+	float: left;
+	margin: 10px 10px 10px 10px;
+	padding: 10px 10px 10px 10px;
 }
 
 .red {
