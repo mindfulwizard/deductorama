@@ -1,23 +1,26 @@
 var app = angular.module('deductorama', []);
 var counter;
 
-
 app.controller('MainCtrl', function ($scope) {
-	$scope.submissions = 3;
+	$scope.submissions = 12;
 	$scope.rows = [0,1,2,3];
 	$scope.guesses = [];
-	$scope.colorsObj = {0: null, 1:null, 2:null, 3:null};
-	$scope.answersObj = {0: null, 1:null, 2:null, 3:null};
-	$scope.pegsArr = [];
+	$scope.answersArray = [null, null, null, null];
+	$scope.colorsArray = [null, null, null, null];
+	$scope.pegsArray = [];
 	$scope.currentPegs = [];
-	$scope.gameOver = false;
 	$scope.loser = false;
+	$scope.winner = false;
+	$scope.canClick = true;
 
-	$scope.colorCycler = function($index, obj) {
+	$scope.colorCycler = function($index, array) {
+		if(!$scope.canClick) {
+			return;
+		};
+
 		var availableColors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
-
 		//start colorCycler from red if clicking on new circle
-		if(!obj[$index]) {
+		if(!array[$index]) {
 			counter = 0;
 		}
 
@@ -27,113 +30,107 @@ app.controller('MainCtrl', function ($scope) {
 			counter = 0;
 		}
 
-		//push colors into colorsObj to be rendered in working column
-		obj[$index] = availableColors[counter];
+		//push colors into colorsArray to be rendered in working column
+		array[$index] = availableColors[counter];
 		counter++;
 	};
 
-	$scope.makeGuess = function(colorsObj) {
+	$scope.verify = function(array) {
 		//make sure all circles are colored
-		for(var key in colorsObj) {
-			if(!colorsObj[key]) {
-		 		$scope.notAllFilledOut = true;
-				return;
-			}	
+		if(_.includes(array, null)) {
+			$scope.notAllFilledOut = true;
+			return;
 		}
+
 		$scope.notAllFilledOut = false;
-
-		$scope.checkAnswer(colorsObj);
-
 		$scope.submissions--;
-
-		if($scope.submissions === 0) {
-			$scope.gameOver = true;
-			$scope.revealAnswer();
-		};
+		$scope.evalGuess(array);
 	};
 
-	$scope.revealAnswer = function() {
-		for(var key in $scope.colorsObj) {
-			$scope.colorsObj[key] = $scope.answersObj[key];
+	$scope.evalGuess = function(array) {
+		//compare colorsObj to answersObj
+		if(_.isEqual(array, $scope.answersArray)) {
+		 	$scope.winner = true;
+		 	$scope.canClick = false;
+		 	return;
 		}
-		$scope.loser = true;
-	}
 
-	$scope.checkAnswer = function(colorsObj) {
+		if(!$scope.submissions) {
+			$scope.loser = true;
+			$scope.canClick = false;
+			return;
+		}
+
 		var rightSpot = 0;
 		var rightColor = 0;
+		var tempColors = _.clone($scope.colorsArray);
+		var tempAnswers = _.clone($scope.answersArray);
+		var colorCount = {};
+		var answerCount = {};
 
-		//compare colorsObj to answersObj
-		//deep equals of colorsObj with answersObj
-		if(JSON.stringify(colorsObj) === JSON.stringify($scope.answersObj)) {
-		 	$scope.winner = true;
-		 	return;
-		};
-
-		//figure out how many rightColor & rightSpot
-		 //turn colorsObj and answersObj into arrays
-		var colorsArr = [];
-		for(var key in colorsObj) {
-   			colorsArr.push(colorsObj[key]);
-		};
-
-		var answersArr = [];
-		for(var key in $scope.answersObj) {
-   			answersArr.push($scope.answersObj[key]);
-		};
-
-		colorsArr.forEach(function(e, i) {
-    		if(e === answersArr[i]) {
-        		colorsArr.splice(i,1, undefined);
-        		answersArr.splice(i,1, null);
-        		rightSpot++;
-   			 }		
+		//if correct color is in correct spot, increase counter, else store in objs
+		_.forEach(tempColors, function(element, index) {
+			if(element === tempAnswers[index]) {
+				rightSpot++;
+			} else {
+				colorCount[element] = (colorCount[element] + 1) || 1;
+				answerCount[tempAnswers[index]] = (answerCount[tempAnswers[index]] + 1) || 1;
+			}
 		});
 
-		answersArr.forEach(function(e, i) {
-    		if(colorsArr.indexOf(e) > -1) {
-    			answersArr.splice(i,1, null);
-    			colorsArr.splice((colorsArr.indexOf(e)),1, undefined);
-       			rightColor++;
-    		}		
-		});
+		//compare objs to find amount of correct colors in wrong spot
+		_.forOwn(answerCount, function(value, key) {
+			if(_.has(colorCount, key.toString())) {
+				if(colorCount[key] <= answerCount[key]) {
+					rightColor += colorCount[key];
+				} else {
+					rightColor += (answerCount[key] - colorCount[key]);
+				}
+			}
+		})
 
-		$scope.sendHints(rightColor, rightSpot);
+		sendHints(rightColor, rightSpot);
 
-		//push colorsObj into guesses to be rendered by previous columns
-		$scope.guesses.push(colorsObj);
-		$scope.pegsArr.push($scope.currentPegs);
-		//reset colorsObj and pegsArr to be used in working column
-		$scope.colorsObj = {0: null, 1:null, 2:null, 3:null};
+		//push colorsArray into guesses to be rendered by previous columns
+		$scope.guesses.push(array);
+		$scope.pegsArray.push($scope.currentPegs);
+
+		//reset arrays to be used in working column
+		$scope.colorsArray = [null, null, null, null];
 		$scope.currentPegs = [];
 	};
 
-	$scope.sendHints = function(rightColor, rightSpot) {
-		//push correct amount of black/gray/white pegs to pegsArr to be rendered
+	function sendHints(rightColor, rightSpot) {
+		//push correct amount of black/gray/white pegs to pegsArray to be rendered
 		for(var a = 0; a < rightColor; a++) {
 			$scope.currentPegs.push('gray');
 		};
 
 		for(var b = 0; b < rightSpot; b++) {
 			$scope.currentPegs.push('black');
-		};	
-
-		var totallyWrong = 4 - (rightColor+rightSpot);
-
-		for(var c = 0; c < totallyWrong; c++) {
-			$scope.currentPegs.push('white');
 		};
 	};
+
+	$scope.revealAnswer = function() {
+		$scope.notAllFilledOut = false;
+		$scope.colorsArray = _.clone($scope.answersArray);
+		$scope.canClick = false;
+		$scope.loser = true;
+	};
+
+	$scope.playAgain = function() {
+		window.location.reload();
+	}
 
 	$scope.setPattern = function(){
 		//set answer by calling colorCycler randNum times on each circle
 		$scope.rows.forEach(function(e) {
 			var randomNum = Math.floor((Math.random() * 6) + 1);
 			for(var x = randomNum; x <= 6; x++) {
-				$scope.colorCycler(e, $scope.answersObj);
+				$scope.colorCycler(e, $scope.answersArray);
 			}
 		});
-		//console.log("answer", $scope.answersObj);
+		//console.log('answer:', $scope.answersArray);
 	}();
 
 });
