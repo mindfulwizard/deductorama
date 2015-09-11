@@ -8,6 +8,7 @@
 			<link rel="stylesheet" href="deductorama.css">
 			<h1>Deductorama</h1>
 			<h4>Your goal is to guess the correct pattern. Keep clicking on a circle to cycle through all color choices. A black dot indicates some correct color in the correct position, while a grey dot represents some correct color in the wrong position.</h4>
+			<h4>You have {{submissions}} guesses left</h4>
 		</div>	
 	</head>	
 
@@ -16,7 +17,7 @@
 			<div class='columns'>
 				<div class="column" id="column{{$index+1}}" ng-repeat="guess in guesses track by $index">
 					<div class="pegs">
-						<div class="peg" id='peg{{$index+1}}' ng-repeat='row in rows track by $index' style='background-color: {{pegsArr[$parent.$index][$index]}}'></div>
+						<div class="peg" id='peg{{$index+1}}' ng-repeat='row in rows track by $index' style='background-color: {{pegsArray[$parent.$index][$index]}}'></div>
 					</div>
 					<div class='circles'>
 						<div class='circle' id="circle{{$index+1}}" ng-repeat='row in rows track by $index' style='background-color: {{guesses[$parent.$index][$index]}}'></div>
@@ -32,13 +33,15 @@
 				</div>
 			</div>	
 		</div>
+		<div class='words'>
+			<h4 ng-show='notAllFilledOut'>Please fill out all the circles!</h4>
+			<h4 ng-show='winner'>You win!</h4> 
+			<h4 ng-show='loser'>You lose.</h4>
+		</div>
 		<div class="button-div">
-			<span>You have {{submissions}} guesses left</span><br>
-			<span ng-show='notAllFilledOut'>Please fill out all the circles!</span><br>
-			<span ng-show='winner'>You Win!</span><span ng-show="loser">You Lose.</span>
 			<button id="reveal" ng-click="revealAnswer()">Reveal Solution</button>
 			<button id="submit" ng-click="verify(colorsArray)">Submit Guess</button>
-			<button ng-show="winner || loser" id="replay" ng-click="playAgain()">Play another game!</button>
+			<button id="replay" ng-click="playAgain()">Play again!</button>
 		</div>	
 	</body>
 </html>
