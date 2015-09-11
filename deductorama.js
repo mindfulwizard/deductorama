@@ -130,7 +130,7 @@ app.controller('MainCtrl', function ($scope) {
 				$scope.colorCycler(e, $scope.answersArray);
 			}
 		});
-		//console.log('answer:', $scope.answersArray);
+		console.log('answer:', $scope.answersArray);
 	}();
 
 });
