@@ -2,7 +2,7 @@
 
 Logic game with a minimalist aesthetic written in Javascript using AngularJS and CSS.
 
-I built this Mastermind clone during review week at Fullstack Academy. You can play it here: http://mindfulwizard.github.io/deductorama/
+I built this Mastermind clone during review week at Fullstack Academy. You can play it here: iratner.com/deductorama
 
 
 
